@@ -17,13 +17,11 @@ public interface TaskDao {
     LiveData<List<Task>> getTask(long taskId);
 
     @Insert
-    void insert(Task task);
+    void insertTask(Task task);
 
-    @Delete
-    void delete(Task task);
 
-    @Query("DELETE FROM task_table")
-    void deleteTask();
+    @Query("DELETE FROM task_table WHERE id = :taskId")
+    int deleteTask(long taskId);
 
 
 }
