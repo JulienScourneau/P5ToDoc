@@ -1,4 +1,4 @@
-package com.cleanup.todoc.Database;
+package com.cleanup.todoc.database;
 
 import android.content.Context;
 
@@ -8,6 +8,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.cleanup.todoc.database.dao.ProjectDao;
+import com.cleanup.todoc.database.dao.TaskDao;
 import com.cleanup.todoc.model.Task;
 
 @Database(entities = {Task.class}, version = 1)
@@ -15,6 +17,7 @@ public abstract class TodocDataBase extends RoomDatabase {
 
     private static TodocDataBase instance;
 
+    public abstract ProjectDao projectDao();
     public abstract TaskDao taskDao();
 
     public static synchronized TodocDataBase getInstance(Context context){
