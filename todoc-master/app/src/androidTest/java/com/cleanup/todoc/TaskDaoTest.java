@@ -1,13 +1,12 @@
 package com.cleanup.todoc;
 
-
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.room.Room;
 
+import com.cleanup.todoc.TestUtils.LiveDataTestUtil;
 import com.cleanup.todoc.database.ToDocDataBase;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
@@ -21,6 +20,7 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 public class TaskDaoTest {
@@ -28,7 +28,9 @@ public class TaskDaoTest {
     private ToDocDataBase database;
 
     private Project mProject = new Project(1L, "Projet Tartampion", 0xFFEADAD1);
-    private Task mTask = new Task (1,mProject.getId(),"TASK_DEMO",new Date().getTime());
+    private Task mTask = new Task (mProject.getId(),"TASK_DEMO",new Date().getTime());
+    private Task mTask2 = new Task (mProject.getId(),"TASK_DEMO_2",new Date().getTime());
+
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
@@ -48,10 +50,31 @@ public class TaskDaoTest {
 
     @Test
     public void insertAndGetProject() throws InterruptedException{
-
         this.database.projectDao().createProject(mProject);
 
         Project project = LiveDataTestUtil.getValue(this.database.projectDao().getProject(mProject.getId()));
         assertTrue(project.getName().equals(mProject.getName()) && project.getId() == mProject.getId());
+    }
+
+    @Test
+    public void insertAndGetTask() throws InterruptedException{
+        this.database.projectDao().createProject(mProject);
+        this.database.taskDao().createTask(mTask);
+        this.database.taskDao().createTask(mTask2);
+
+        List<Task> taskList = LiveDataTestUtil.getValue(this.database.taskDao().getTask());
+        assertEquals(2, taskList.size());
+    }
+
+    @Test
+    public void insertAndDeleteTask() throws InterruptedException{
+        this.database.projectDao().createProject(mProject);
+        this.database.taskDao().createTask(mTask);
+        this.database.taskDao().createTask(mTask2);
+        Task taskToRemove = LiveDataTestUtil.getValue(this.database.taskDao().getTask()).get(0);
+        this.database.taskDao().deleteTask(taskToRemove.getId());
+
+        List<Task> taskList = LiveDataTestUtil.getValue(this.database.taskDao().getTask());
+        assertEquals(1, taskList.size());
     }
 }
