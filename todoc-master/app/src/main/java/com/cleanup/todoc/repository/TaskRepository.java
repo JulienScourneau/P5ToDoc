@@ -15,7 +15,7 @@ public class TaskRepository {
         this.mTaskDao = taskDao;
     }
 
-    public LiveData<List<Task>> getTask(long taskId){
+    public LiveData<Task> getTask(long taskId){
         return this.mTaskDao.getTask(taskId);
     }
 

@@ -11,6 +11,6 @@ import java.util.List;
 @Dao
 public interface ProjectDao {
 
-    @Query("SELECT * FROM project_table")
-    LiveData <List<Project>> getProject(long projectId);
+    @Query("SELECT * FROM project_table WHERE id = :projectId")
+    LiveData <Project> getProject(long projectId);
 }
