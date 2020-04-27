@@ -14,18 +14,18 @@ import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
 @Database(entities = {Task.class, Project.class}, version = 1)
-public abstract class TodocDataBase extends RoomDatabase {
+public abstract class ToDocDataBase extends RoomDatabase {
 
-    private static TodocDataBase instance;
+    private static ToDocDataBase instance;
 
     public abstract ProjectDao projectDao();
     public abstract TaskDao taskDao();
 
-    public static  TodocDataBase getInstance(Context context){
+    public static ToDocDataBase getInstance(Context context){
         if(instance==null) {
-            synchronized (TodocDataBase.class) {
+            synchronized (ToDocDataBase.class) {
                 instance = Room.databaseBuilder(context.getApplicationContext(),
-                        TodocDataBase.class, "Todoc_database")
+                        ToDocDataBase.class, "Todoc_database")
                         .addCallback(prepopulateDatabase())
                         .build();
             }
