@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey;
  *
  * @author Gaëtan HERFRAY
  */
-@Entity(tableName = "project_table")
+@Entity
 public class Project {
     /**
      * The unique identifier of the project
@@ -39,7 +39,7 @@ public class Project {
      * @param name  the name of the project to set
      * @param color the hex (ARGB) code of the color associated to the project to set
      */
-    private Project(long id, @NonNull String name, @ColorInt int color) {
+    public Project(long id, @NonNull String name, @ColorInt int color) {
         this.id = id;
         this.name = name;
         this.color = color;

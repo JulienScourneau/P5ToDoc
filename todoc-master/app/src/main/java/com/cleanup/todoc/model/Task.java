@@ -16,7 +16,7 @@ import java.util.Comparator;
  */
 @Entity(foreignKeys = @ForeignKey(entity = Project.class,
         parentColumns ="id",
-        childColumns = "projectId"),tableName = "task_table")
+        childColumns = "projectId"))
 
 public class Task {
     /**
@@ -76,6 +76,11 @@ public class Task {
         this.id = id;
     }
 
+
+    public long getProjectId() {
+        return projectId;
+    }
+
     /**
      * Sets the unique identifier of the project associated to the task.
      *
@@ -112,6 +117,10 @@ public class Task {
      */
     private void setName(@NonNull String name) {
         this.name = name;
+    }
+
+    public long getCreationTimestamp() {
+        return creationTimestamp;
     }
 
     /**

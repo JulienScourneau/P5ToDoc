@@ -10,9 +10,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.cleanup.todoc.database.dao.ProjectDao;
 import com.cleanup.todoc.database.dao.TaskDao;
+import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
-@Database(entities = {Task.class}, version = 1)
+@Database(entities = {Task.class, Project.class}, version = 1)
 public abstract class TodocDataBase extends RoomDatabase {
 
     private static TodocDataBase instance;
@@ -20,12 +21,14 @@ public abstract class TodocDataBase extends RoomDatabase {
     public abstract ProjectDao projectDao();
     public abstract TaskDao taskDao();
 
-    public static synchronized TodocDataBase getInstance(Context context){
-        if(instance==null){
-            instance = Room.databaseBuilder(context.getApplicationContext(),
-                    TodocDataBase.class, "Todoc_database")
-                    .addCallback(prepopulateDatabase())
-                    .build();
+    public static  TodocDataBase getInstance(Context context){
+        if(instance==null) {
+            synchronized (TodocDataBase.class) {
+                instance = Room.databaseBuilder(context.getApplicationContext(),
+                        TodocDataBase.class, "Todoc_database")
+                        .addCallback(prepopulateDatabase())
+                        .build();
+            }
         }
         return instance;
     }
