@@ -27,9 +27,9 @@ public class TaskDaoTest {
 
     private ToDocDataBase database;
 
-    private Project mProject = new Project(1L, "Projet Tartampion", 0xFFEADAD1);
-    private Task mTask = new Task (mProject.getId(),"TASK_DEMO",new Date().getTime());
-    private Task mTask2 = new Task (mProject.getId(),"TASK_DEMO_2",new Date().getTime());
+    private Project mProject = new Project(4L, "Projet Test", 0xFFEADAD1);
+    private Task mTask = new Task (1L,"TASK_DEMO",new Date().getTime());
+    private Task mTask2 = new Task (1L,"TASK_DEMO_2",new Date().getTime());
 
 
     @Rule
@@ -58,7 +58,7 @@ public class TaskDaoTest {
 
     @Test
     public void insertAndGetTask() throws InterruptedException{
-        this.database.projectDao().createProject(mProject);
+
         this.database.taskDao().createTask(mTask);
         this.database.taskDao().createTask(mTask2);
 
@@ -68,7 +68,7 @@ public class TaskDaoTest {
 
     @Test
     public void insertAndDeleteTask() throws InterruptedException{
-        this.database.projectDao().createProject(mProject);
+
         this.database.taskDao().createTask(mTask);
         this.database.taskDao().createTask(mTask2);
         Task taskToRemove = LiveDataTestUtil.getValue(this.database.taskDao().getTask()).get(0);
