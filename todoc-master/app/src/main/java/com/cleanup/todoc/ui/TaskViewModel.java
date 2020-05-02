@@ -31,7 +31,22 @@ public class TaskViewModel extends ViewModel {
     public LiveData<List<Task>> getTask(){
         return mTaskRepository.getTask();
     }
-    public void createTask(Task task){
 
+    public void createTask(final Task task){
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mTaskRepository.createTask(task);
+            }
+        });
+    }
+
+    public void deleteTask(final long taskId){
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mTaskRepository.deleteTask(taskId);
+            }
+        });
     }
 }
