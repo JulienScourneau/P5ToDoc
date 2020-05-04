@@ -1,8 +1,7 @@
 package com.cleanup.todoc.ui;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
-
-import androidx.lifecycle.LiveData;
 
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;

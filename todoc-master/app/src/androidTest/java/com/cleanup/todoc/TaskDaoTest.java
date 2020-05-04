@@ -1,10 +1,9 @@
 package com.cleanup.todoc;
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule;
+import android.arch.persistence.room.Room;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.room.Room;
 
 import com.cleanup.todoc.TestUtils.LiveDataTestUtil;
 import com.cleanup.todoc.database.ToDocDataBase;
@@ -27,7 +26,7 @@ public class TaskDaoTest {
 
     private ToDocDataBase database;
 
-    private Project mProject = new Project(4L, "Projet Test", 0xFFEADAD1);
+    private Project mProject = new Project(1L, "Projet Test", 0xFFEADAD1);
     private Task mTask = new Task (1L,"TASK_DEMO",new Date().getTime());
     private Task mTask2 = new Task (1L,"TASK_DEMO_2",new Date().getTime());
 

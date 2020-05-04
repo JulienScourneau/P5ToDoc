@@ -18,9 +18,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-
 import com.cleanup.todoc.R;
 import com.cleanup.todoc.injections.Injection;
 import com.cleanup.todoc.injections.ViewModelFactory;
@@ -126,12 +123,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     }
 
     private void getTask(){
-        this.taskViewModel.getTask().observe(this, new Observer<List<Task>>() {
-            @Override
-            public void onChanged(List<Task> tasks) {
-                updateTasksList(tasks);
-            }
-        });
+
+        this.taskViewModel.getTask().observe( this,this::updateTasksList);
     }
 
     @Override
