@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.cleanup.todoc.R;
 import com.cleanup.todoc.injections.Injection;
@@ -110,6 +109,9 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         listTasks.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         listTasks.setAdapter(adapter);
 
+        configureViewModel();
+        getTask();
+
         findViewById(R.id.fab_add_task).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,12 +126,21 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     }
 
     private void getTask(){
-        this.taskViewModel.getTask().observe((LifecycleOwner) this, new Observer<List<Task>>() {
+        this.taskViewModel.getTask().observe(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
-                updateTasks();
+                updateTasksList(tasks);
             }
         });
+    }
+
+    @Override
+    public void onDeleteTask(Task task) {
+        this.taskViewModel.deleteTask(task.getId());
+    }
+
+    private void updateTasksList(List<Task> tasks){
+        this.adapter.updateTasks(tasks);
     }
 
     @Override
@@ -155,12 +166,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         updateTasks();
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onDeleteTask(Task task) {
-        tasks.remove(task);
-        updateTasks();
     }
 
     /**
@@ -204,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
                 dialogInterface.dismiss();
             }
         }
-        // If dialog is aloready closed
+        // If dialog is already closed
         else {
             dialogInterface.dismiss();
         }
@@ -230,8 +235,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * @param task the task to be added to the list
      */
     private void addTask(@NonNull Task task) {
-        tasks.add(task);
-        updateTasks();
+        this.taskViewModel.createTask(task);
     }
 
     /**
