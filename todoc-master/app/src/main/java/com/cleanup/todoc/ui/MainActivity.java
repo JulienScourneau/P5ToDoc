@@ -122,18 +122,38 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         this.taskViewModel = ViewModelProviders.of(this, viewModelFactory).get(TaskViewModel.class);
     }
 
-    private void getTask(){
-
-        this.taskViewModel.getTask().observe( this,this::updateTasksList);
+    private void getProjectList(){
+        this.taskViewModel.getProjectList();
     }
+
+    private void getTask(){
+        this.taskViewModel.getTask().observe( this,this::updateTasksList);
+        updateTasks();
+
+    }
+
+    /**
+     * Adds the given task to the list of created tasks.
+     *
+     * @param task the task to be added to the list
+     */
+    private void addTask(@NonNull Task task) {
+
+        this.taskViewModel.createTask(task);
+        tasks.add(task);
+    }
+
 
     @Override
     public void onDeleteTask(Task task) {
         this.taskViewModel.deleteTask(task.getId());
+        updateTasks();
+        tasks.remove(task);
     }
 
     private void updateTasksList(List<Task> tasks){
         this.adapter.updateTasks(tasks);
+        updateTasks();
     }
 
     @Override
@@ -185,16 +205,12 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             // If both project and name of the task have been set
             else if (taskProject != null) {
 
-
-
                 Task task = new Task(
                         taskProject.getId(),
                         taskName,
                         new Date().getTime()
                 );
-
                 addTask(task);
-
                 dialogInterface.dismiss();
             }
             // If name has been set, but project has not been set (this should never occur)
@@ -220,15 +236,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         dialogSpinner = dialog.findViewById(R.id.project_spinner);
 
         populateDialogSpinner();
-    }
-
-    /**
-     * Adds the given task to the list of created tasks.
-     *
-     * @param task the task to be added to the list
-     */
-    private void addTask(@NonNull Task task) {
-        this.taskViewModel.createTask(task);
     }
 
     /**

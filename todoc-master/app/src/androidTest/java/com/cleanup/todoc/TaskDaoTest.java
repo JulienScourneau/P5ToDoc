@@ -30,7 +30,6 @@ public class TaskDaoTest {
     private Task mTask = new Task (1L,"TASK_DEMO",new Date().getTime());
     private Task mTask2 = new Task (1L,"TASK_DEMO_2",new Date().getTime());
 
-
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
@@ -49,8 +48,8 @@ public class TaskDaoTest {
 
     @Test
     public void insertAndGetProject() throws InterruptedException{
-        this.database.projectDao().createProject(mProject);
 
+        this.database.projectDao().createProject(mProject);
         Project project = LiveDataTestUtil.getValue(this.database.projectDao().getProject(mProject.getId()));
         assertTrue(project.getName().equals(mProject.getName()) && project.getId() == mProject.getId());
     }
@@ -58,6 +57,7 @@ public class TaskDaoTest {
     @Test
     public void insertAndGetTask() throws InterruptedException{
 
+        this.database.projectDao().createProject(mProject);
         this.database.taskDao().createTask(mTask);
         this.database.taskDao().createTask(mTask2);
 
@@ -68,6 +68,7 @@ public class TaskDaoTest {
     @Test
     public void insertAndDeleteTask() throws InterruptedException{
 
+        this.database.projectDao().createProject(mProject);
         this.database.taskDao().createTask(mTask);
         this.database.taskDao().createTask(mTask2);
         Task taskToRemove = LiveDataTestUtil.getValue(this.database.taskDao().getTask()).get(0);

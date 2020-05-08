@@ -23,6 +23,10 @@ public class TaskViewModel extends ViewModel {
         this.mExecutor = executor;
     }
 
+    public LiveData<Project> getProjectList(){
+        return mProjectRepository.getProjectList();
+    }
+
     public LiveData<Project> getProject(long projectId){
         return mProjectRepository.getProject(projectId);
     }
@@ -32,20 +36,10 @@ public class TaskViewModel extends ViewModel {
     }
 
     public void createTask(final Task task){
-        mExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mTaskRepository.createTask(task);
-            }
-        });
+        mExecutor.execute(() -> mTaskRepository.createTask(task));
     }
 
     public void deleteTask(final long taskId){
-        mExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mTaskRepository.deleteTask(taskId);
-            }
-        });
+        mExecutor.execute(() -> mTaskRepository.deleteTask(taskId));
     }
 }
