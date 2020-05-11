@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     private void configureViewModel(){
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.taskViewModel = ViewModelProviders.of(this, viewModelFactory).get(TaskViewModel.class);
+
     }
 
     private void getProjectList(){
@@ -128,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     private void getTask(){
         this.taskViewModel.getTask().observe( this,this::updateTasksList);
-        updateTasks();
 
     }
 
@@ -141,18 +141,19 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
         this.taskViewModel.createTask(task);
         tasks.add(task);
+        updateTasks();
     }
-
 
     @Override
     public void onDeleteTask(Task task) {
         this.taskViewModel.deleteTask(task.getId());
-        updateTasks();
         tasks.remove(task);
+        updateTasks();
     }
 
     private void updateTasksList(List<Task> tasks){
-        this.adapter.updateTasks(tasks);
+        this.tasks.clear();
+        this.tasks.addAll(tasks);
         updateTasks();
     }
 

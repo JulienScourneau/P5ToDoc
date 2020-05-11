@@ -44,7 +44,7 @@ public abstract class ToDocDataBase extends RoomDatabase {
                 ContentValues contentValues = new ContentValues();
                 Project[] projectList = Project.getAllProjects();
 
-                for (int i=0;i<2; i++ ){
+                for (int i=0;i<=2; i++ ){
 
                     Project mProject = projectList[i];
 

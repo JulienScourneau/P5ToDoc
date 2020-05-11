@@ -1,5 +1,6 @@
 package com.cleanup.todoc;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.cleanup.todoc.ui.MainActivity;
 
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,8 +32,16 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(AndroidJUnit4.class)
 public class MainActivityInstrumentedTest {
+
+
+
     @Rule
     public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(MainActivity.class);
+
+    @BeforeClass
+    public static void clearDb(){
+        InstrumentationRegistry.getTargetContext().deleteDatabase("Todoc_database");
+    }
 
     @Test
     public void addAndRemoveTask() {
